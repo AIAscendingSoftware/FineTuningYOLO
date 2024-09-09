@@ -1,0 +1,6 @@
+train: E:\AI Ascending Software\AS AI Projects\AI PackageGuard\AI-PackageGuard\yolo\yolo_objects_detection\fineTuneYOLO\custom_dataset\images\train
+val: E:\AI Ascending Software\AS AI Projects\AI PackageGuard\AI-PackageGuard\yolo\yolo_objects_detection\fineTuneYOLO\custom_dataset\images\val
+test: E:\AI Ascending Software\AS AI Projects\AI PackageGuard\AI-PackageGuard\yolo\yolo_objects_detection\fineTuneYOLO\custom_dataset\images\test
+
+nc: 1  # number of classes
+names: ['throwing_parcel']
