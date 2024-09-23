@@ -1,0 +1,6 @@
+train: D:\AI Projects\fineTuneYolo8xModel\FineTuningYOLO\custom_dataset\images\train
+val: D:\AI Projects\fineTuneYolo8xModel\FineTuningYOLO\custom_dataset\images\val
+test: D:\AI Projects\fineTuneYolo8xModel\FineTuningYOLO\custom_dataset\images\test
+
+nc: 1  # number of classes
+names: ['throwing parcel']
