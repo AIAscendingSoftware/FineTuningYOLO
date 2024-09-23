@@ -1,5 +1,3 @@
-
-
 from ultralytics import YOLO
 import cv2
 import numpy as np
@@ -33,6 +31,9 @@ class YOLOEnsemble:
         num_classes = 80  # Adjust this number if needed (depends on the number of classes in your model)
         colors = np.random.randint(0, 255, size=(num_classes, 3), dtype='uint8')  # Random colors for each class
         
+        # Set the confidence threshold
+        conf_threshold = 0.70
+        
         while True:
             ret, frame = cap.read()
             if not ret:
@@ -42,27 +43,28 @@ class YOLOEnsemble:
             combined_frame = frame.copy()
 
             for model in self.models:
-                results = model.predict(source=frame, save=False, conf=0.25)  # Adjust confidence threshold if needed
+                results = model.predict(source=frame, save=False, conf=0.25)  # Keep base confidence at 0.25 for broad detection
                 
                 for result in results:
                     boxes = result.boxes  # Get detected boxes
                     
-                    # Draw bounding boxes and labels
+                    # Draw bounding boxes and labels for high-confidence detections
                     for box in boxes:
-                        x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()  # Extract bounding box coordinates
                         conf = box.conf.cpu().numpy()[0]  # Confidence score
-                        cls = int(box.cls.cpu().numpy()[0])  # Class ID
-                        label = f"{model.names[cls]} {conf:.2f}"  # Class label and confidence
-                        
-                        # Assign color based on class ID
-                        color = [int(c) for c in colors[cls % len(colors)]]
-                        
-                        # Draw the rectangle and label on the frame
-                        cv2.rectangle(combined_frame, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
-                        cv2.putText(combined_frame, label, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+                        if conf >= conf_threshold:  # Only consider boxes with high confidence
+                            x1, y1, x2, y2 = box.xyxy[0].cpu().numpy()  # Extract bounding box coordinates
+                            cls = int(box.cls.cpu().numpy()[0])  # Class ID
+                            label = f"{model.names[cls]} {conf:.2f}"  # Class label and confidence
+                            
+                            # Assign color based on class ID
+                            color = [int(c) for c in colors[cls % len(colors)]]
+                            
+                            # Draw the rectangle and label on the frame
+                            cv2.rectangle(combined_frame, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
+                            cv2.putText(combined_frame, label, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-            # Display the combined frame with detections
-            cv2.imshow("YOLO Ensemble", combined_frame)
+            # Display the combined frame with high-confidence detections
+            cv2.imshow("YOLO Ensemble (High Confidence Only)", combined_frame)
 
             # Exit on pressing 'q'
             if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -82,4 +84,4 @@ if __name__ == '__main__':
     yolo_ensemble = YOLOEnsemble(model_paths)
     
     # Run inference on a video
-    yolo_ensemble.run_inference(r'D:\AI Projects\fineTuneYolo8xModel\throwingParcelsVideos\WhatsApp Video 2024-08-30 at 21.13.02.mp4')
+    yolo_ensemble.run_inference(r'D:\AI Projects\fineTuneYolo8xModel\throwingParcelsVideos\WhatsApp Video 2024-08-30 at 21.13.02.mp4')#D:\AI Projects\fineTuneYolo8xModel\throwingParcelsVideos\WhatsApp Video 2024-08-30 at 21.13.02.mp4
