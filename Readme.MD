@@ -42,21 +42,4 @@ custom_dataset/
 │       └── ...
 
 
-######## To activate GPU ########
-I use python 3.9 to fine-tune the yolo, so to utilize the GPU, install necessary libraries with corresponding versionb as mentioned below
-
-pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117
-
-
-#####train YOLO with custom dataset####
-
-For that run the ToTrainYOLO.py file by feeding below details
-        
-        model_path='yolov8x.pt',
-        yaml_path=r"D:\AI Projects\fineTuneYolo8xModel\FineTuningYOLO\throwing_parcel.yaml",
-        project_name='yolo_training',
-        run_name='yolov8_finetuned',
-        epochs=50,
-        batch_size=4,
-        image_size=640
 
