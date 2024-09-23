@@ -40,8 +40,7 @@ custom_dataset/
 │       ├── img1.txt
 │       ├── img2.txt
 │       └── ...
-
-
+<<<<<<< pranith
 ######## To activate GPU ########
 I use python 3.9 to fine-tune the yolo, so to utilize the GPU, install necessary libraries with corresponding versionb as mentioned below
 
@@ -59,4 +58,8 @@ For that run the ToTrainYOLO.py file by feeding below details
         epochs=50,
         batch_size=4,
         image_size=640
+
+=======
+>>>>>>> main
+
 
